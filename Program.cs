@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace ConsoleApp1
@@ -20,9 +19,23 @@ namespace ConsoleApp1
             
         static void MyChat(IApplicationBuilder app)
         {
+            app.Map("/ola", Hello);
+
+            Default(app);            
+        }
+
+        static void Hello(IApplicationBuilder app)
+        {
             app.Run( async ctx => {
-                await ctx.Response.WriteAsync("Boa noite");
-            });
+                await ctx.Response.WriteAsync("Ola!");                
+            });            
+        }
+
+        static void Default(IApplicationBuilder app)
+        {
+            app.Run( async ctx => {
+                await ctx.Response.WriteAsync("Boa noite!");                
+            });            
         }
     }
 }
