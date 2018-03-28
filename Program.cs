@@ -19,9 +19,20 @@ namespace ConsoleApp1
             
         static void MyChat(IApplicationBuilder app)
         {
+            app.MapWhen( ctx => {
+                return ctx.Request.Query.ContainsKey("beta");
+            }, BetaFeature);
+
             app.Map("/ola", Hello);
 
             Default(app);            
+        }
+
+        static void BetaFeature(IApplicationBuilder app)
+        {
+            app.Run( async ctx => {
+                await ctx.Response.WriteAsync("--BETA VERSION--");                
+            });            
         }
 
         static void Hello(IApplicationBuilder app)
